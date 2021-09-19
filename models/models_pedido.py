@@ -11,6 +11,22 @@ class Pedido(models.Model):
     )
     fecha = fields.Date('Fecha del Pedido')
 
+    cliente_id = fields.Many2one(
+        'pedidos.cliente',
+        string='Cliente',
+    )
+    direccion_id = fields.Many2one(
+        'pedidos.cliente.direccion',
+        'Dirección de entrega',
+    )
+
+    @api.onchange('cliente_id')
+    def _onchange_cliente_id(self):
+        self.direccion_id = False
+        if len(self.cliente_id.direccion_ids) == 1:
+            self.direccion_id = self.cliente_id.direccion_ids
+
+
 
 class PedidoDetalle(models.Model):
     _name = 'pedidos.pedido.detalle'

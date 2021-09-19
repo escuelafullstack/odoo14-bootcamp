@@ -27,3 +27,11 @@ class Direccion(models.Model):
 
     name = fields.Char('Lugar', required=True)
     direccion = fields.Char('Dirección', required=True)
+
+    def name_get(self):
+        result = []
+        for record in self:
+            name = '{} ({})'.format(record.name, record.direccion)
+            result.append((record.id, name))
+        return result
+

@@ -65,6 +65,10 @@
                 <sheet>
                     <group>
                         <field name="fecha"/>
+                        <field name="cliente_id"/>
+                        <field name="direccion_id"
+                            domain="[('cliente_id', '=', cliente_id)]"
+                        />
                     </group>
                     <notebook>
                         <page name="Detalle">
