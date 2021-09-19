@@ -4,14 +4,19 @@
         name="Pedidos"
         sequence="0"
     />
+    <menuitem id="menu_pedidos"
+        parent="menu_app"
+        action="pedido_action"
+        sequence="10"
+    />
     <menuitem id="menu_clientes"
         parent="menu_app"
         action="cliente_action"
-        sequence="10"
+        sequence="20"
     />
     <menuitem id="menu_productos"
         parent="menu_app"
         action="producto_action"
-        sequence="20"
+        sequence="30"
     />
 </odoo>

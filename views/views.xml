@@ -43,4 +43,48 @@
     	<field name="view_mode">tree,form</field>
     </record>
 
+
+    <!-- ################################################################################
+        VISTAS - PEDIDO
+         ################################################################################ -->
+
+    <record model='ir.ui.view' id='pedido_tree'>
+        <field name='name'>pedidos.pedido.tree</field>
+        <field name='model'>pedidos.pedido</field>
+        <field name='arch' type='xml'>
+            <tree string='Pedidos'>
+                <field name='fecha'/>
+            </tree>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="pedido_form">
+        <field name="name">pedidos.pedido.form</field>
+        <field name="model">pedidos.pedido</field>
+        <field name="arch" type="xml">
+            <form string="description">
+                <sheet>
+                    <group>
+                        <field name="fecha"/>
+                    </group>
+                    <notebook>
+                        <page name="Detalle">
+                            <field name="detalle_ids">
+                                <tree string='Detalles' editable="botton">
+                                    <field name='producto_id'/>
+                                    <field name='precio_unitario'/>
+                                    <field name='cantidad'/>
+                                    <field name='total'/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="pedido_action" model="ir.actions.act_window">
+        <field name="name">Pedidos</field>
+        <field name="res_model">pedidos.pedido</field>
+        <field name="view_mode">tree,form</field>
+    </record>
 </odoo>
