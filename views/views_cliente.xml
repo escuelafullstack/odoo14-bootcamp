@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ################################################################################
+        VISTAS - CLIENTE
+         ################################################################################ -->
+    <record model='ir.ui.view' id='cliente_tree'>
+        <field name='name'>pedidos.cliente.tree</field>
+        <field name='model'>pedidos.cliente</field>
+        <field name='arch' type='xml'>
+            <tree string='Clientes'>
+                <field name='documento'/>
+                <field name='name'/>
+                <field name='telefono'/>
+            </tree>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="cliente_form">
+        <field name="name">pedidos.cliente.form</field>
+        <field name="model">pedidos.cliente</field>
+        <field name="arch" type="xml">
+            <form string="Form. del Cliente">
+                <header>
+                </header>
+                <sheet>
+                    <group>
+                        <field name="documento"/>
+                        <field name="name"/>
+                        <field name="telefono"/>
+                    </group>
+
+                    <notebook>
+                        <page string="Direcciones">
+                            <field name="direccion_ids">
+                                <tree string='direcciones'>
+                                    <field name='name'/>
+                                    <field name='direccion'/>
+                                </tree>
+                                <form string='Dirección'>
+                                    <group>
+                                        <field name='name'/>
+                                        <field name='direccion'/>
+                                    </group>
+                                </form>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="cliente_action" model="ir.actions.act_window">
+        <field name="name">Clientes</field>
+        <field name="res_model">pedidos.cliente</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+</odoo>

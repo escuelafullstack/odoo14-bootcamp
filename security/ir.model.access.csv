@@ -1,0 +1,8 @@
+"id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
+
+
+access_pedidos_cliente,access_pedidos_cliente,model_pedidos_cliente,base.group_user,1,1,1,1
+
+access_pedidos_cliente_direccion,access_pedidos_cliente_direccion,model_pedidos_cliente_direccion,base.group_user,1,1,1,1
+
+access_pedidos_producto,access_pedidos_producto,model_pedidos_producto,base.group_user,1,1,1,1
