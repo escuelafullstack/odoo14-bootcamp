@@ -28,9 +28,8 @@
                     <group>
                     	<group>
                         	<field name="precio"/>
-                    	</group>
-                    	<group>
                         	<field name="stock"/>
+                            <field name="descuento"/>
                     	</group>
                     </group>
                 </sheet>

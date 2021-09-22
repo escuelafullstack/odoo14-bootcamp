@@ -9,7 +9,10 @@ class Pedido(models.Model):
         'pedido_id',
         string='Detalles',
     )
-    fecha = fields.Date('Fecha del Pedido')
+    fecha = fields.Date(
+        'Fecha del Pedido',
+        default=lambda self: fields.Date.context_today(self),
+    )
 
     cliente_id = fields.Many2one(
         'pedidos.cliente',
@@ -25,7 +28,6 @@ class Pedido(models.Model):
         self.direccion_id = False
         if len(self.cliente_id.direccion_ids) == 1:
             self.direccion_id = self.cliente_id.direccion_ids
-
 
 
 class PedidoDetalle(models.Model):
@@ -58,6 +60,5 @@ class PedidoDetalle(models.Model):
     @api.depends('producto_id', 'cantidad')
     def _compute_total(self):
         for record in self:
-            record.total = record.cantidad * record.precio_unitario
-
+            record.total = record.cantidad * record.precio_unitario * (1 - record.producto_id.descuento / 100.0)
 

@@ -11,3 +11,4 @@ class Producto(models.Model):
     )
     stock = fields.Integer('Stock')
     precio = fields.Float('Precio')
+    descuento = fields.Float('Descuento %')
