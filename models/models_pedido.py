@@ -1,10 +1,16 @@
 from odoo import api, fields, models
 
-from .utils import SELECTION_PEDIDO_ESTADO, PEDIDO_ESTADO_REGISTRO, PEDIDO_ESTADO_ENPREPARACION
+from .utils import (
+    SELECTION_PEDIDO_ESTADO,
+    PEDIDO_ESTADO_REGISTRO,
+    PEDIDO_ESTADO_ENPREPARACION,
+    PEDIDO_ESTADO_FINALIZADO,
+)
 
 
 class Pedido(models.Model):
     _name = 'pedidos.pedido'
+    _inherit = 'mail.thread'
 
     detalle_ids = fields.One2many(
         'pedidos.pedido.detalle',
@@ -23,12 +29,14 @@ class Pedido(models.Model):
     direccion_id = fields.Many2one(
         'pedidos.cliente.direccion',
         'Dirección de entrega',
+        tracking=True,
     )
 
     state = fields.Selection(
         SELECTION_PEDIDO_ESTADO,
         'Estado',
         default=PEDIDO_ESTADO_REGISTRO,
+        tracking=True,
     )
 
     @api.onchange('cliente_id')
@@ -39,6 +47,14 @@ class Pedido(models.Model):
 
     def action_enpreparacion(self):
         self.state = PEDIDO_ESTADO_ENPREPARACION
+
+        for detalle in self.detalle_ids:
+            producto = detalle.producto_id
+            cantidad = detalle.cantidad
+            producto.stock = producto.stock - cantidad
+
+    def action_finalizar(self):
+        self.state = PEDIDO_ESTADO_FINALIZADO
 
 
 class PedidoDetalle(models.Model):
@@ -53,6 +69,7 @@ class PedidoDetalle(models.Model):
         'pedidos.producto',
         string='Producto',
         required=True,
+        domain=[('stock', '>', 0)],
     )
     cantidad = fields.Integer(
         string='Cantidad',
