@@ -6,8 +6,24 @@
     />
     <menuitem id="menu_pedidos"
         parent="menu_app"
-        action="pedido_action"
+        name="Pedidos"
         sequence="10"
+    />
+
+    <menuitem id="menu_pedidos_registro"
+        parent="menu_pedidos"
+        action="pedido_registro_action"
+        sequence="1"
+    />
+    <menuitem id="menu_pedidos_enpreparacion"
+        parent="menu_pedidos"
+        action="pedido_enpreparacion_action"
+        sequence="2"
+    />
+    <menuitem id="menu_pedidos_finalizados"
+        parent="menu_pedidos"
+        action="pedido_finalizados_action"
+        sequence="3"
     />
     <menuitem id="menu_clientes"
         parent="menu_app"
@@ -19,4 +35,22 @@
         action="producto_action"
         sequence="30"
     />
+
+
+    <menuitem id="menu_cocina"
+        parent="menu_app"
+        name="Cocina"
+        sequence="10"
+    />
+    <menuitem id="menu_cocina_enpreparacion"
+        parent="menu_cocina"
+        sequence="1"
+        action="cocina_pedido_enpreparacion_action"
+    />
+    <menuitem id="menu_cocina_finalizados"
+        parent="menu_cocina"
+        sequence="2"
+        action="cocina_pedido_finalizados_action"
+    />
+
 </odoo>

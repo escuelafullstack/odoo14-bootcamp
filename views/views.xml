@@ -102,9 +102,35 @@
             </form>
         </field>
     </record>
-    <record id="pedido_action" model="ir.actions.act_window">
-        <field name="name">Pedidos</field>
+    <record id="pedido_registro_action" model="ir.actions.act_window">
+        <field name="name">Registrados</field>
         <field name="res_model">pedidos.pedido</field>
         <field name="view_mode">tree,form</field>
+        <field name="domain">[('state', '=', 'registro')]</field>
+    </record>
+    <record id="pedido_enpreparacion_action" model="ir.actions.act_window">
+        <field name="name">En preparación</field>
+        <field name="res_model">pedidos.pedido</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('state', '=', 'enpreparacion')]</field>
+    </record>
+    <record id="pedido_finalizados_action" model="ir.actions.act_window">
+        <field name="name">Finalizados</field>
+        <field name="res_model">pedidos.pedido</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('state', '=', 'finalizado')]</field>
+    </record>
+
+    <record id="cocina_pedido_enpreparacion_action" model="ir.actions.act_window">
+        <field name="name">En preparación</field>
+        <field name="res_model">pedidos.pedido</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('state', '=', 'enpreparacion')]</field>
+    </record>
+    <record id="cocina_pedido_finalizados_action" model="ir.actions.act_window">
+        <field name="name">Finalizados</field>
+        <field name="res_model">pedidos.pedido</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('state', '=', 'finalizado')]</field>
     </record>
 </odoo>
