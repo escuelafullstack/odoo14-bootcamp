@@ -82,10 +82,6 @@
                         states="registro"
                         string="Preparar" type="object"
                     />
-                    <button name="action_finalizar"
-                        states="enpreparacion"
-                        string="Finalizar" type="object"
-                    />
                 </header>
                 <sheet>
                     <group>

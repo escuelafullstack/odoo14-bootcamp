@@ -12,5 +12,23 @@
             <field name="name">Rol de Callcenter</field>
         </record>
 
+
+    <!-- ################################################################################
+            REGLAS / CALLCENTER
+        ################################################################################ -->
+        <record model="ir.rule" id="pedido__group_callcenter">
+            <field name="name">Pedidos del usuario callcenter</field>
+            <!--field name="model_id" ref="modulo.model_nombrecompletomodelo"/-->
+            <field name="model_id" ref="pedidos.model_pedidos_pedido"/>
+            <!--field name="groups" eval="[(4, ref('nombrecompletodelgrupo'))]"/-->
+            <field name="groups" eval="[(4, ref('pedidos.group_callcenter'))]"/>
+            <!-- create_uid usuario que creó el regristro-->
+            <!-- write_uid usuario que modifico el regristro -->
+            <field name="domain_force">[('create_uid', '=', user.id)]</field>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="0"/>
+            <field name="perm_create" eval="0"/>
+            <field name="perm_unlink" eval="0"/>
+        </record>
     </data>
 </odoo>
