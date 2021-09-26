@@ -61,6 +61,13 @@
         <field name="model">pedidos.pedido</field>
         <field name="arch" type="xml">
             <form string="description">
+                <header>
+                    <field name="state" widget="statusbar"/>
+                    <button name="action_enpreparacion"
+                        states="registro"
+                        string="Preparar" type="object"
+                    />
+                </header>
                 <sheet>
                     <group>
                         <field name="fecha"/>

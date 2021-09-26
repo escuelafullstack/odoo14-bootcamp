@@ -1,5 +1,7 @@
 from odoo import api, fields, models
 
+from .utils import SELECTION_PEDIDO_ESTADO, PEDIDO_ESTADO_REGISTRO, PEDIDO_ESTADO_ENPREPARACION
+
 
 class Pedido(models.Model):
     _name = 'pedidos.pedido'
@@ -23,11 +25,20 @@ class Pedido(models.Model):
         'Dirección de entrega',
     )
 
+    state = fields.Selection(
+        SELECTION_PEDIDO_ESTADO,
+        'Estado',
+        default=PEDIDO_ESTADO_REGISTRO,
+    )
+
     @api.onchange('cliente_id')
     def _onchange_cliente_id(self):
         self.direccion_id = False
         if len(self.cliente_id.direccion_ids) == 1:
             self.direccion_id = self.cliente_id.direccion_ids
+
+    def action_enpreparacion(self):
+        self.state = PEDIDO_ESTADO_ENPREPARACION
 
 
 class PedidoDetalle(models.Model):
