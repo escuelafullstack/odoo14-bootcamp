@@ -3,6 +3,7 @@ from odoo import fields, models
 
 class Producto(models.Model):
     _name = 'pedidos.producto'
+    _description = 'Producto'
 
     name = fields.Char(
         string='Nombre del producto',

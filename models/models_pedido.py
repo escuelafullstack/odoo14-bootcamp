@@ -11,6 +11,8 @@ from .utils import (
 class Pedido(models.Model):
     _name = 'pedidos.pedido'
     _inherit = 'mail.thread'
+    _description = 'Pedido'
+    _rec_name = 'cliente_id'
 
     detalle_ids = fields.One2many(
         'pedidos.pedido.detalle',
@@ -59,6 +61,7 @@ class Pedido(models.Model):
 
 class PedidoDetalle(models.Model):
     _name = 'pedidos.pedido.detalle'
+    _description = 'Detalle del pedido'
 
     pedido_id = fields.Many2one(
         'pedidos.pedido',
@@ -89,4 +92,3 @@ class PedidoDetalle(models.Model):
     def _compute_total(self):
         for record in self:
             record.total = record.cantidad * record.precio_unitario * (1 - record.producto_id.descuento / 100.0)
-
