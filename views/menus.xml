@@ -4,12 +4,14 @@
         name="Pedidos"
         sequence="0"
     />
+
+    <!-- MENU PEDIDOS -->
     <menuitem id="menu_pedidos"
         parent="menu_app"
         name="Pedidos"
         sequence="10"
+        groups="base.group_erp_manager,pedidos.group_callcenter"
     />
-
     <menuitem id="menu_pedidos_registro"
         parent="menu_pedidos"
         action="pedido_registro_action"
@@ -25,22 +27,30 @@
         action="pedido_finalizados_action"
         sequence="3"
     />
+
+
+    <!-- MENU CLIENTES -->
     <menuitem id="menu_clientes"
         parent="menu_app"
         action="cliente_action"
         sequence="20"
+        groups="base.group_erp_manager,pedidos.group_callcenter"
     />
+
+    <!-- MENU PRODUCTOS -->
     <menuitem id="menu_productos"
         parent="menu_app"
         action="producto_action"
         sequence="30"
+        groups="base.group_erp_manager"
     />
 
-
+    <!-- MENU COCINA -->
     <menuitem id="menu_cocina"
         parent="menu_app"
         name="Cocina"
         sequence="10"
+        groups="base.group_erp_manager,pedidos.group_cocina"
     />
     <menuitem id="menu_cocina_enpreparacion"
         parent="menu_cocina"

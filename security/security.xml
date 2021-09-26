@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+    <!-- ################################################################################
+            DEFINICIÓN DE GRUPOS
+        ################################################################################ -->
+        <record model="res.groups" id="group_cocina">
+            <field name="name">Rol de Cocina</field>
+        </record>
+
+        <record model="res.groups" id="group_callcenter">
+            <field name="name">Rol de Callcenter</field>
+        </record>
+
+    </data>
+</odoo>

@@ -9,6 +9,7 @@
     ],
     'data': [
         # SECURITY
+        'security/security.xml',
         'security/ir.model.access.csv',
         # VIEWS
         'views/views_cliente.xml',
