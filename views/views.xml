@@ -46,7 +46,7 @@
     <!-- ################################################################################
         VISTAS - PEDIDO
          ################################################################################ -->
-
+    <!-- VISTAS POR DEFECTO -->
     <record model='ir.ui.view' id='pedido_tree'>
         <field name='name'>pedidos.pedido.tree</field>
         <field name='model'>pedidos.pedido</field>
@@ -58,11 +58,24 @@
             </tree>
         </field>
     </record>
+    <record model='ir.ui.view' id='pedido_lectura_tree'>
+        <field name='name'>pedidos.pedido.lectura.tree</field>
+        <field name='model'>pedidos.pedido</field>
+        <field name="inherit_id" ref="pedidos.pedido_tree"/>
+        <!--field name="inherit_id" ref="pedido_tree"--> <!-- tambien es valido si ambas vistas estan en el mismo addon-->
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <xpath expr="//tree" position="attributes">
+                <attribute name="create">0</attribute>
+            </xpath>
+        </field>
+    </record>
+
     <record model="ir.ui.view" id="pedido_form">
         <field name="name">pedidos.pedido.form</field>
         <field name="model">pedidos.pedido</field>
         <field name="arch" type="xml">
-            <form string="description">
+            <form>
                 <header>
                     <field name="state" widget="statusbar"/>
                     <button name="action_enpreparacion"
@@ -102,35 +115,108 @@
             </form>
         </field>
     </record>
+    <record model="ir.ui.view" id="pedido_lectura_form">
+        <field name="name">pedidos.pedido.lectura.form</field>
+        <field name="model">pedidos.pedido</field>
+        <field name="inherit_id" ref="pedidos.pedido_form"/>
+        <!--field name="inherit_id" ref="pedido_form"--> <!-- tambien es valido si ambas vistas estan en el mismo addon-->
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="attributes">
+                <attribute name="create">0</attribute>
+                <attribute name="edit">0</attribute>
+            </xpath>
+        </field>
+    </record>
+
     <record id="pedido_registro_action" model="ir.actions.act_window">
         <field name="name">Registrados</field>
         <field name="res_model">pedidos.pedido</field>
         <field name="view_mode">tree,form</field>
         <field name="domain">[('state', '=', 'registro')]</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+            (0, 0, {'view_mode': 'tree', 'view_id': ref('pedidos.pedido_tree')}),
+            (0, 0, {'view_mode': 'form', 'view_id': ref('pedidos.pedido_form')})]"/>
     </record>
     <record id="pedido_enpreparacion_action" model="ir.actions.act_window">
         <field name="name">En preparación</field>
         <field name="res_model">pedidos.pedido</field>
         <field name="view_mode">tree,form</field>
         <field name="domain">[('state', '=', 'enpreparacion')]</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+            (0, 0, {'view_mode': 'tree', 'view_id': ref('pedidos.pedido_lectura_tree')}),
+            (0, 0, {'view_mode': 'form', 'view_id': ref('pedidos.pedido_lectura_form')})]"/>
     </record>
     <record id="pedido_finalizados_action" model="ir.actions.act_window">
         <field name="name">Finalizados</field>
         <field name="res_model">pedidos.pedido</field>
         <field name="view_mode">tree,form</field>
         <field name="domain">[('state', '=', 'finalizado')]</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+            (0, 0, {'view_mode': 'tree', 'view_id': ref('pedidos.pedido_lectura_tree')}),
+            (0, 0, {'view_mode': 'form', 'view_id': ref('pedidos.pedido_lectura_form')})]"/>
     </record>
 
+
+    <!-- VISTAS PARA COCINA -->
+    <record model='ir.ui.view' id='cocina_pedido_tree'>
+        <field name='name'>cocina.pedidos.pedido.tree</field>
+        <field name='model'>pedidos.pedido</field>
+        <field name='arch' type='xml'>
+            <tree string='Pedidos' create="0" edit="0">
+                <field name='fecha'/>
+                <field name='write_date'/>
+                <field name='state'/>
+            </tree>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="cocina_pedido_form">
+        <field name="name">cocina.pedidos.pedido.form</field>
+        <field name="model">pedidos.pedido</field>
+        <field name="arch" type="xml">
+            <form create="0" edit="0">
+                <header>
+                    <field name="state" widget="statusbar"/>
+                    <button name="action_finalizar"
+                        states="enpreparacion"
+                        string="Finalizar" type="object"
+                    />
+                </header>
+                <sheet>
+                    <group>
+                        <field name="fecha"/>
+                    </group>
+                    <notebook>
+                        <page name="Detalle">
+                            <field name="detalle_ids">
+                                <tree string='Detalles' editable="botton">
+                                    <field name='producto_id'/>
+                                    <field name='cantidad'/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
     <record id="cocina_pedido_enpreparacion_action" model="ir.actions.act_window">
         <field name="name">En preparación</field>
         <field name="res_model">pedidos.pedido</field>
         <field name="view_mode">tree,form</field>
         <field name="domain">[('state', '=', 'enpreparacion')]</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+            (0, 0, {'view_mode': 'tree', 'view_id': ref('pedidos.cocina_pedido_tree')}),
+            (0, 0, {'view_mode': 'form', 'view_id': ref('pedidos.cocina_pedido_form')})]"/>
     </record>
     <record id="cocina_pedido_finalizados_action" model="ir.actions.act_window">
         <field name="name">Finalizados</field>
         <field name="res_model">pedidos.pedido</field>
         <field name="view_mode">tree,form</field>
         <field name="domain">[('state', '=', 'finalizado')]</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+            (0, 0, {'view_mode': 'tree', 'view_id': ref('pedidos.cocina_pedido_tree')}),
+            (0, 0, {'view_mode': 'form', 'view_id': ref('pedidos.cocina_pedido_form')})]"/>
     </record>
+
 </odoo>
