@@ -53,7 +53,20 @@ class Pedido(models.Model):
         for detalle in self.detalle_ids:
             producto = detalle.producto_id
             cantidad = detalle.cantidad
+
+            '''
             producto.stock = producto.stock - cantidad
+            producto.name = 'PIZZA DE CHAMPIÑONE'
+            producto.fecha_vencimiento = '2021-12-12'
+
+            # Esto no es optimo
+            '''
+
+            producto.sudo().write({
+                'stock': producto.stock - cantidad,
+                # 'name': 'PIZZA DE CHAMPIÑONE',
+                # 'fecha_vencimiento': '2021-12-12',
+            })
 
     def action_finalizar(self):
         self.state = PEDIDO_ESTADO_FINALIZADO

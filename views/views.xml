@@ -47,6 +47,15 @@
         VISTAS - PEDIDO
          ################################################################################ -->
     <!-- VISTAS POR DEFECTO -->
+    <record id="pedido_search" model="ir.ui.view">
+        <field name="name">pedidos.pedido.search</field>
+        <field name="model">pedidos.pedido</field>
+        <field name="arch" type="xml">
+            <search string="Filtro">
+                <filter name="mispedidos" string="Mis pedidos" domain="[('create_uid','=',uid)]"/>
+            </search>
+        </field>
+    </record>
     <record model='ir.ui.view' id='pedido_tree'>
         <field name='name'>pedidos.pedido.tree</field>
         <field name='model'>pedidos.pedido</field>
@@ -55,6 +64,7 @@
                 <field name='fecha'/>
                 <field name='cliente_id'/>
                 <field name='state'/>
+                <field name='create_uid'/>
             </tree>
         </field>
     </record>
@@ -130,6 +140,7 @@
         <field name="res_model">pedidos.pedido</field>
         <field name="view_mode">tree,form</field>
         <field name="domain">[('state', '=', 'registro')]</field>
+        <field name="context">{'search_default_mispedidos': True}</field>
         <field name="view_ids" eval="[(5, 0, 0),
             (0, 0, {'view_mode': 'tree', 'view_id': ref('pedidos.pedido_tree')}),
             (0, 0, {'view_mode': 'form', 'view_id': ref('pedidos.pedido_form')})]"/>
@@ -139,6 +150,7 @@
         <field name="res_model">pedidos.pedido</field>
         <field name="view_mode">tree,form</field>
         <field name="domain">[('state', '=', 'enpreparacion')]</field>
+        <field name="context">{'search_default_mispedidos': True}</field>
         <field name="view_ids" eval="[(5, 0, 0),
             (0, 0, {'view_mode': 'tree', 'view_id': ref('pedidos.pedido_lectura_tree')}),
             (0, 0, {'view_mode': 'form', 'view_id': ref('pedidos.pedido_lectura_form')})]"/>
@@ -148,6 +160,7 @@
         <field name="res_model">pedidos.pedido</field>
         <field name="view_mode">tree,form</field>
         <field name="domain">[('state', '=', 'finalizado')]</field>
+        <field name="context">{'search_default_mispedidos': True}</field>
         <field name="view_ids" eval="[(5, 0, 0),
             (0, 0, {'view_mode': 'tree', 'view_id': ref('pedidos.pedido_lectura_tree')}),
             (0, 0, {'view_mode': 'form', 'view_id': ref('pedidos.pedido_lectura_form')})]"/>
