@@ -52,22 +52,21 @@ class Pedido(models.Model):
         # Busqueda de pedidos anteriores
         if self.cliente_id:
             domain = [
-                ('cliente_id', '=', self.cliente_id.id),  # Pedidos del cliente
-                ('state', '=', PEDIDO_ESTADO_FINALIZADO),  # Que el pedido esté en finalizado
+                ('pedido_id.cliente_id', '=', self.cliente_id.id),  # Pedidos del cliente
+                ('pedido_id.state', '=', PEDIDO_ESTADO_FINALIZADO),  # Que el pedido esté en finalizado
             ]
-            # pedido_objs = self.env['pedidos.pedido'].search(domain)  # Ya no se necesi si son el mismo modelo
-            pedido_objs = self.search(domain)
+
+            detalle_objs = self.env['pedidos.pedido.detalle'].search(domain)
 
             vals = {
                 # producto1: [1,2,1]
                 # producto2: [1,1,1]
             }
 
-            for pedido in pedido_objs:
-                for detalle in pedido.detalle_ids:
-                    if detalle.producto_id not in vals:
-                        vals[detalle.producto_id] = []
-                    vals[detalle.producto_id].append(detalle.cantidad)
+            for detalle in detalle_objs:
+                if detalle.producto_id not in vals:
+                    vals[detalle.producto_id] = []
+                vals[detalle.producto_id].append(detalle.cantidad)
 
             val_detalle_ids = []
 
