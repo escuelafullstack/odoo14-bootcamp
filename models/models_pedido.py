@@ -1,3 +1,5 @@
+import statistics
+
 from odoo import api, fields, models
 
 from .utils import (
@@ -46,6 +48,42 @@ class Pedido(models.Model):
         self.direccion_id = False
         if len(self.cliente_id.direccion_ids) == 1:
             self.direccion_id = self.cliente_id.direccion_ids
+
+        # Busqueda de pedidos anteriores
+        if self.cliente_id:
+            domain = [
+                ('cliente_id', '=', self.cliente_id.id),  # Pedidos del cliente
+                ('state', '=', PEDIDO_ESTADO_FINALIZADO),  # Que el pedido esté en finalizado
+            ]
+            # pedido_objs = self.env['pedidos.pedido'].search(domain)  # Ya no se necesi si son el mismo modelo
+            pedido_objs = self.search(domain)
+
+            vals = {
+                # producto1: [1,2,1]
+                # producto2: [1,1,1]
+            }
+
+            for pedido in pedido_objs:
+                for detalle in pedido.detalle_ids:
+                    if detalle.producto_id not in vals:
+                        vals[detalle.producto_id] = []
+                    vals[detalle.producto_id].append(detalle.cantidad)
+
+            val_detalle_ids = []
+
+            for producto in vals:
+                cantidad = statistics.mode(vals[producto])
+                val = (0, 0, {'producto_id': producto.id, 'cantidad': cantidad})
+                val_detalle_ids.append(val)
+
+            self.detalle_ids = False
+            self.detalle_ids = val_detalle_ids
+
+            # Como llenar atributos one2many
+            # https://www.odoo.com/es_ES/forum/ayuda-1/how-to-fill-one2many-field-134093
+
+            print(vals)
+
 
     def action_enpreparacion(self):
         self.state = PEDIDO_ESTADO_ENPREPARACION
