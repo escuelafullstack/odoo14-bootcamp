@@ -51,9 +51,16 @@ class Pedido(models.Model):
 
         # Busqueda de pedidos anteriores
         if self.cliente_id:
+            # Pedidos del cliente
             domain = [
-                ('pedido_id.cliente_id', '=', self.cliente_id.id),  # Pedidos del cliente
-                ('pedido_id.state', '=', PEDIDO_ESTADO_FINALIZADO),  # Que el pedido esté en finalizado
+                ('cliente_id', '=', self.cliente_id.id),  # Pedidos del cliente
+                ('state', '=', PEDIDO_ESTADO_FINALIZADO),  # Que el pedido esté en finalizado
+            ]
+            pedido_objs = self.search(domain)
+
+            # Detalles de los pedidos
+            domain = [
+                ('pedido_id', 'in', pedido_objs.ids),
             ]
 
             detalle_objs = self.env['pedidos.pedido.detalle'].search(domain)
@@ -117,6 +124,7 @@ class PedidoDetalle(models.Model):
         'pedidos.pedido',
         string='pedido',
         required=True,
+        index=True,
     )
     producto_id = fields.Many2one(
         'pedidos.producto',
