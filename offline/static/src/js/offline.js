@@ -22,7 +22,7 @@ function getPartners(){
             jQuery.each(response, function(i, item) {
                 $("#table-body").append(
                  '<tr>' +
-                 ' <th scope="row">' + item.id + '</th>' +
+                 '<td><input type="text" id="id_'+item.id+'" value="' + item.id +'" readonly=""/></td>' +
                  '<td><input type="text" id="name_'+item.id+'" value="' + item.name +'"/></td>' +
                  '<td><input type="text" id="vat_'+item.id+'" value="' + item.vat +'"/></td>' +
                  ' <td>' + item.create_date +'</td>' +
@@ -51,3 +51,53 @@ function guardarPartner(id){
     });
 
 }
+
+
+function subirData(){
+    db.transaction(function (tx) {
+        tx.executeSql('SELECT id, name, vat FROM res_partner', [],
+          function callback(tx, results) {
+            //console.log(results.rows)
+              var len = results.rows.length, i;
+              let lista = []
+              for (i = 0; i < len; i++) {
+                lista.push(results.rows.item(i))
+              }
+              let data = {
+                'csrf_token': $("#csrf_token").val(),
+                'data': JSON.stringify(lista)
+              }
+              console.log(data)
+            $.ajax({
+              url: '/updatePartners',
+              type: 'post',
+              dataType: 'json',
+              timeout: 10000,
+              data: data,
+              success: function(data) {
+                console.log(data)
+                if (data.status){
+                    alert('Información actualizada')
+                }
+              },
+              error: function(data) {
+                alert("Ocurrió un error")
+              }
+            });
+
+            },
+          function errorCallback(tx, error) {
+            alert('Error de conexión: ' + error.message);
+          }
+          );
+    });
+}
+/*
+
+WebSQL
+https://www.arkaitzgarro.com/html5/capitulo-8.html
+
+https://couchdb.apache.org/
+
+
+*/
