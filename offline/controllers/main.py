@@ -18,7 +18,8 @@ class OfflineController(http.Controller):
         for partner in partner_objs:
             data.append({
                 'id': partner.id,
-                'name': partner.name,
+                'name': partner.name or '',
+                'vat': partner.vat or '',
                 'create_date': fields.Datetime.to_string(partner.create_date),
                 'write_date': fields.Datetime.to_string(partner.write_date),
             })

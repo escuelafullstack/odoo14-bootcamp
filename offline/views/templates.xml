@@ -9,9 +9,22 @@
                 <t t-call-assets="web.assets_common" t-css="false" />
                 <t t-call-assets="web.assets_frontend" t-css="false" />
             </t>
-            <div class="container">
                 <h1>Odoo Offline</h1>
-            </div>
+
+				<table class="table table-striped">
+				  <thead>
+				    <tr>
+				      <th scope="col">Id</th>
+				      <th scope="col">Name</th>
+                      <th scope="col">Vat</th>
+				      <th scope="col">Create Date</th>
+				      <th scope="col">Write Date</th>
+				    </tr>
+				  </thead>
+				  <tbody id="table-body"/>
+				</table>
+
+            <script type="text/javascript" src="/offline/static/src/js/offline.js" />
         </t>
     </template>
 </odoo>
