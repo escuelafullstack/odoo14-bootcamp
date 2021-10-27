@@ -1,0 +1,38 @@
+version: '3'
+services:
+  nginx:
+    image: nginx:1.18
+    container_name: odoo_nginx
+    hostname: odoo_nginx
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./nginx/conf/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/conf/sites-enabled:/etc/nginx/sites-enabled
+      - ./nginx/conf/logs:/var/log/nginx
+      - ./nginx/html/index.html:/usr/share/nginx/html/index.html
+
+  postgres12:
+    image: "postgres:12.0"
+    container_name: "odoo_postgres_12"
+    hostname: 'odoo_postgres_12'
+    restart: always             # run as a service
+    volumes:
+      - odoo_postgres-12:/var/lib/postgresql/data
+
+  odoo:
+    image: odoo:14.0
+    container_name: "odoo14"
+    hostname: "odoo14"
+    #ports:
+    #  - "9911:8069"
+    command: -- --dev=reload
+    volumes:
+      - ./odoo/addons:/mnt/extra-addons
+      - ./odoo/etc:/etc/odoo
+      - ./odoo/filestore:/var/lib/odoo
+    restart: always
+
+volumes:
+  odoo_postgres-12:
